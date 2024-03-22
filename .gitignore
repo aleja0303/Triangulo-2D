@@ -1,0 +1,64 @@
+import math
+
+class Punto2D:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __str__(self):
+        return f'Punto: ({self.x}, {self.y})'
+
+class Triangulo2D:
+    def __init__(self, punto1, punto2, punto3):
+        self.punto1 = punto1
+        self.punto2 = punto2
+        self.punto3 = punto3
+    
+    @classmethod
+    def triangulo_rectangulo(cls):
+        punto1 = Punto2D(0, 0)
+        punto2 = Punto2D(0, 1)
+        punto3 = Punto2D(1, 0)
+        return cls(punto1, punto2, punto3)
+    
+    def calcular_lado(self, punto1, punto2):
+        return math.sqrt((punto2.x - punto1.x)**2 + (punto2.y - punto1.y)**2)
+    
+    def calcular_angulo(self, lado1, lado2, lado3):
+        return math.degrees(math.acos((lado2**2 + lado3**2 - lado1**2) / (2 * lado2 * lado3)))
+    
+    def calcular_perimetro(self):
+        lado1 = self.calcular_lado(self.punto1, self.punto2)
+        lado2 = self.calcular_lado(self.punto2, self.punto3)
+        lado3 = self.calcular_lado(self.punto3, self.punto1)
+        return lado1 + lado2 + lado3
+    
+    def calcular_area(self):
+        lado1 = self.calcular_lado(self.punto1, self.punto2)
+        lado2 = self.calcular_lado(self.punto2, self.punto3)
+        lado3 = self.calcular_lado(self.punto3, self.punto1)
+        s = (lado1 + lado2 + lado3) / 2
+        return math.sqrt(s * (s - lado1) * (s - lado2) * (s - lado3))
+    
+    def mostrar_angulos(self):
+        lado1 = self.calcular_lado(self.punto1, self.punto2)
+        lado2 = self.calcular_lado(self.punto2, self.punto3)
+        lado3 = self.calcular_lado(self.punto3, self.punto1)
+        
+        angulo1 = self.calcular_angulo(lado1, lado2, lado3)
+        angulo2 = self.calcular_angulo(lado2, lado1, lado3)
+        angulo3 = self.calcular_angulo(lado3, lado1, lado2)
+        
+        print(f"Ángulo entre lado 1 y lado 2: {angulo1:.2f} grados")
+        print(f"Ángulo entre lado 2 y lado 3: {angulo2:.2f} grados")
+        print(f"Ángulo entre lado 3 y lado 1: {angulo3:.2f} grados")
+
+
+punto1 = Punto2D(0, 0)
+punto2 = Punto2D(0, 3)
+punto3 = Punto2D(4, 0)
+
+triangulo = Triangulo2D(punto1, punto2, punto3)
+print(triangulo.calcular_perimetro())
+print(triangulo.calcular_area())
+triangulo.mostrar_angulos()
